@@ -15,7 +15,7 @@ And type
 ## How to launch
 Just type
 
-`./test_task ../input_data.json` or `./test_task`
+`./test_task ../input_data.txt` or `./test_task`
 
 ### Windows
 You will need MSYS2 enviroment to compile this project on Windows and FLTK 1.3.9. I recommend to just download FLTK sources and compile them, then install into your system, because MSYS2 pacman distributes often DLL's, not static libraries.
