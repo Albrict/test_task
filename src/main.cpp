@@ -6,7 +6,6 @@
 
 int main(int argc, char **argv) 
 {
-    std::locale::global(std::locale(""));
     std::optional<OP::file_buffer> file = {};
     if (argc == 2) {
         if (std::filesystem::exists(argv[1]) == false) {

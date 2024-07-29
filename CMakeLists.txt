@@ -25,18 +25,32 @@ set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Werror=format-security")
 cmake_policy(SET CMP0004 OLD)
 cmake_policy(SET CMP0004 OLD)
 
-execute_process(
-    COMMAND bash -c "fltk-config --cxxflags"
-    OUTPUT_VARIABLE cxx_flags_var
-)
+if (UNIX)
+    execute_process(
+        COMMAND bash -c "fltk-config --cxxflags"
+        OUTPUT_VARIABLE cxx_flags_var
+    )
 
-execute_process(
-    COMMAND bash -c "fltk-config --ldflags"
-    OUTPUT_VARIABLE ld_flags_var
-)
+    execute_process(
+        COMMAND bash -c "fltk-config --ldflags"
+        OUTPUT_VARIABLE ld_flags_var
+    )
 
 
-add_executable( test_task )
-target_link_libraries(test_task ${ld_flags_var})
-add_compile_options(test_task "${${cxx_flags_var}}")
-add_subdirectory( "src" )
+    add_executable( test_task )
+    target_link_libraries(test_task ${ld_flags_var})
+    add_compile_options(test_task "${${cxx_flags_var}}")
+    add_subdirectory( "src" )
+endif()
+
+if (WIN32)
+    FIND_PACKAGE(FLTK REQUIRED)
+    FIND_PACKAGE(OpenGL REQUIRED)
+
+    add_executable( test_task )
+
+    target_link_libraries(test_task "-static")
+    TARGET_LINK_LIBRARIES(test_task ${FLTK_LIBRARIES})
+    TARGET_LINK_LIBRARIES(test_task ${OPENGL_LIBRARIES})
+    add_subdirectory( "src" )
+endif()
